@@ -1,10 +1,11 @@
 import java.util.*;
 
 public class Graph {
-    private LinkedList<Integer> adjLists[];
-    private boolean visited[];
+    private LinkedList<Integer>[] adjLists;
+    private boolean[] visited;
     private final int V = 27;
     private LinkedList<String> result = new LinkedList<>();
+    private LinkedList<String> revResult = new LinkedList<>();
 
     Graph() {
         adjLists = new LinkedList[V];
@@ -64,7 +65,6 @@ public class Graph {
         int dest = stringToInt(finish);
         visited[vertex] = true;
 
-        //System.out.print(" -> " + intToString(vertex));
         this.result.add(intToString(vertex));
 
         Iterator<Integer> ite = adjLists[vertex].listIterator();
@@ -78,16 +78,13 @@ public class Graph {
 
     public void BFS(String start, String finish) {
         int s = stringToInt(start);
-        boolean visited[] = new boolean[V];
-
-        LinkedList<Integer> queue = new LinkedList();
+        LinkedList<Integer> queue = new LinkedList<>();
 
         visited[s] = true;
         queue.add(s);
 
         while (queue.size() != 0) {
             s = queue.poll();
-            //System.out.print(" -> " + intToString(s));
             this.result.add(intToString(s));
             if (intToString(s).equals(finish)) return; //STOP SEARCHING WHEN WE REACH DEST
 
@@ -102,11 +99,58 @@ public class Graph {
         }
     }
 
+    /**
+     * Using BFS from both sides
+     */
+    public void BSA(String start, String finish) {
+        boolean[] visitedF = new boolean[V];
+        int vStart = stringToInt(start);
+        int vFinish = stringToInt(finish);
+        LinkedList<Integer> queueStart = new LinkedList<>();
+        LinkedList<Integer> queueFinish = new LinkedList<>();
+        visited[vStart] = visitedF[vFinish] = true;
+        queueStart.add(vStart);
+        queueFinish.add(vFinish);
+
+        while (queueStart.size() != 0 && queueFinish.size() != 0) {
+            vStart = queueStart.poll();
+            vFinish = queueFinish.poll();
+            result.add(intToString(vStart));
+            revResult.add(intToString(vFinish));
+            //if (vStart == vFinish) return;
+
+            Iterator<Integer> iStart = adjLists[vStart].listIterator();
+            Iterator<Integer> iFinish = adjLists[vFinish].listIterator();
+
+            while (iStart.hasNext() && iFinish.hasNext()) {
+                int nS = iStart.next();
+                int nF = iFinish.next();
+                if (!visited[nS]) {
+                    visited[nS] = true;
+                    if (visitedF[nS]) {
+                        result.add(intToString(nS));
+                        return;
+                    }
+                    queueStart.add(nS);
+                }
+                if (!visitedF[nF]) {
+                    visitedF[nF] = true;
+                    if (visited[nF]) {
+                        revResult.add(intToString(nF));
+                        return;
+                    }
+                    queueFinish.add(nF);
+                }
+            }
+        }
+
+    }
+
     public void DLS(String start, String finish, int depth, int limit) {
         int vertex = stringToInt(start);
         int dest = stringToInt(finish);
         visited[vertex] = true;
-        //System.out.print(" -> " + intToString(vertex));
+
         this.result.add(intToString(vertex));
 
         Iterator<Integer> ite = adjLists[vertex].listIterator();
@@ -202,6 +246,7 @@ public class Graph {
     }
 
     public void printResult(String dest) {
+        System.out.print("\t");
         for (String s : this.result) {
             if (!s.equals(dest)) {
                 System.out.print(s + " -> ");
@@ -215,6 +260,17 @@ public class Graph {
                 return;
             }
         }
+    }
+
+    public void printResult() {
+        System.out.print("\t");
+        for (String s : result) {
+            System.out.print(s + " -> ");
+        }
+        for (int i = revResult.size() - 1 ; i > 0 ; i--) {
+            System.out.print(i == revResult.size() - 1 ? revResult.get(i) : " <- " + revResult.get(i));
+        }
+        System.out.println();
     }
 
     private void clearVisited() {
