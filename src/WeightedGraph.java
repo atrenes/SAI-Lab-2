@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 public class WeightedGraph extends Graph {
@@ -11,6 +12,8 @@ public class WeightedGraph extends Graph {
         public int id;
         public LinkedList<Edge> adj = new LinkedList<>(); // distance to other other vertex
         public int h; // heuristic weight
+        public int f;
+        public int g;
     }
 
     static class Edge {
@@ -148,7 +151,7 @@ public class WeightedGraph extends Graph {
         int n = stringToInt(start);
         visited[n] = true;
         boolean running = true;
-        int pathSum = 0;
+        int sum = 0;
         int step = 0;
 
         System.out.println("A*:");
@@ -158,20 +161,20 @@ public class WeightedGraph extends Graph {
 
             int min = 9999;
             for (Edge e : vertexes.get(n).adj) {
-                if (vertexes.get(e.id).h + e.w + pathSum < min && !visited[e.id]) {
-                    min = vertexes.get(e.id).h + e.w + pathSum;
+                if (vertexes.get(e.id).h + e.w < min && !visited[e.id]) {
+                    min = vertexes.get(e.id).h + e.w;
                     step = e.w;
                     n = e.id;
                 }
             }
             visited[n] = true;
-            pathSum += step;
+            sum += step;
             System.out.print(step + " -> ");
             if (n == stringToInt(finish)) {
                 System.out.print(intToString(n));
                 running = false;
             }
         }
-        System.out.println(", sum: " + pathSum);
+        System.out.println(", sum: " + sum);
     }
 }
