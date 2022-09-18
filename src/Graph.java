@@ -3,29 +3,69 @@ import java.util.*;
 public class Graph {
     private LinkedList<Integer> adjLists[];
     private boolean visited[];
-    private final int V;
+    private final int V = 27;
+    private LinkedList<String> result = new LinkedList<>();
 
-    // Graph creation
-    Graph(int vertices) {
-        this.V = vertices;
-        adjLists = new LinkedList[vertices];
-        visited = new boolean[vertices];
+    Graph() {
+        adjLists = new LinkedList[V];
+        visited = new boolean[V];
 
-        for (int i = 0; i < vertices; i++)
+        for (int i = 0; i < V; i++)
             adjLists[i] = new LinkedList<Integer>();
+
+        this.addEdge("Вильнюс","Брест");
+        this.addEdge("Витебск","Брест");
+        this.addEdge("Витебск","Вильнюс");
+        this.addEdge("Воронеж","Витебск");
+        this.addEdge("Воронеж","Волгоград");
+        this.addEdge("Волгоград","Витебск");
+        this.addEdge("Витебск","Ниж.Новгород");
+        this.addEdge("Вильнюс","Даугавпилс");
+        this.addEdge("Калининград","Брест");
+        this.addEdge("Калининград","Вильнюс");
+        this.addEdge("Каунас","Вильнюс");
+        this.addEdge("Киев","Вильнюс");
+        this.addEdge("Киев","Житомир");
+        this.addEdge("Житомир","Донецк");
+        this.addEdge("Житомир","Волгоград");
+        this.addEdge("Кишинев","Киев");
+        this.addEdge("Кишинев","Донецк");
+        this.addEdge("С.Петербург","Витебск");
+        this.addEdge("С.Петербург","Калининград");
+        this.addEdge("С.Петербург","Рига");
+        this.addEdge("Москва","Казань");
+        this.addEdge("Москва","Ниж.Новгород");
+        this.addEdge("Москва","Минск");
+        this.addEdge("Москва","Донецк");
+        this.addEdge("Москва","С.Петербург");
+        this.addEdge("Мурманск","С.Петербург");
+        this.addEdge("Мурманск","Минск");
+        this.addEdge("Орел","Витебск");
+        this.addEdge("Орел","Донецк");
+        this.addEdge("Орел","Москва");
+        this.addEdge("Одесса","Киев");
+        this.addEdge("Рига","Каунас");
+        this.addEdge("Таллинн","Рига");
+        this.addEdge("Харьков","Киев");
+        this.addEdge("Харьков","Симферополь");
+        this.addEdge("Ярославль","Воронеж");
+        this.addEdge("Ярославль","Минск");
+        this.addEdge("Уфа","Казань");
+        this.addEdge("Уфа","Самара");
     }
 
-    void addEdge(String src, String dest) {
+    private void addEdge(String src, String dest) {
         adjLists[stringToInt(src)].add(stringToInt(dest));
         adjLists[stringToInt(dest)].add(stringToInt(src));
     }
 
-    // DFS algorithm
-    void DFS(String start, String finish) {
+    public void DFS(String start, String finish) {
         int vertex = stringToInt(start);
         int dest = stringToInt(finish);
         visited[vertex] = true;
-        System.out.print(" -> " + intToString(vertex));
+
+        //System.out.print(" -> " + intToString(vertex));
+        this.result.add(intToString(vertex));
 
         Iterator<Integer> ite = adjLists[vertex].listIterator();
         while (ite.hasNext()) {
@@ -36,7 +76,7 @@ public class Graph {
         }
     }
 
-    void BFS(String start, String finish) {
+    public void BFS(String start, String finish) {
         int s = stringToInt(start);
         boolean visited[] = new boolean[V];
 
@@ -47,7 +87,8 @@ public class Graph {
 
         while (queue.size() != 0) {
             s = queue.poll();
-            System.out.print(" -> " + intToString(s));
+            //System.out.print(" -> " + intToString(s));
+            this.result.add(intToString(s));
             if (intToString(s).equals(finish)) return; //STOP SEARCHING WHEN WE REACH DEST
 
             Iterator<Integer> i = adjLists[s].listIterator();
@@ -56,6 +97,25 @@ public class Graph {
                 if (!visited[n]) {
                     visited[n] = true;
                     queue.add(n);
+                }
+            }
+        }
+    }
+
+    public void DLS(String start, String finish, int depth, int limit) {
+        int vertex = stringToInt(start);
+        int dest = stringToInt(finish);
+        visited[vertex] = true;
+        //System.out.print(" -> " + intToString(vertex));
+        this.result.add(intToString(vertex));
+
+        Iterator<Integer> ite = adjLists[vertex].listIterator();
+
+        if (depth < limit) {
+            while (ite.hasNext()) {
+                int adj = ite.next();
+                if (!visited[adj]) {
+                    DLS(intToString(adj), intToString(dest), ++depth, limit);
                 }
             }
         }
@@ -127,5 +187,21 @@ public class Graph {
 
             default -> null;
         };
+    }
+
+    public void printResult(String dest) {
+        for (String s : this.result) {
+            if (!s.equals(dest)) {
+                System.out.print(s + " -> ");
+            } else {
+                System.out.println(s);
+                return;
+            }
+
+            if (result.indexOf(s) == result.size() - 1) {
+                System.out.println("X");
+                return;
+            }
+        }
     }
 }
