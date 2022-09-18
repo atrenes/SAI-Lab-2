@@ -169,7 +169,7 @@ public class Graph {
         while (!result.contains(finish)) {
             this.DLS(start, finish, depth, limit++);
 
-            System.out.print("\tStep " + (limit-1) + ": ");
+            System.out.print("\tLimit " + (limit-1) + ": ");
             printResult(finish);
 
             clearVisited();
@@ -177,7 +177,7 @@ public class Graph {
         }
     }
 
-    private int stringToInt(String s) {
+    protected int stringToInt(String s) {
         return switch (s) {
             case "Вильнюс" -> 0;
             case "Брест" -> 1;
@@ -211,35 +211,35 @@ public class Graph {
         };
     }
 
-    private String intToString(int index) {
+    protected String intToString(int index) {
         return switch (index) {
-            case 0 -> "Вильнюс";
-            case 1 -> "Брест";
-            case 2 -> "Витебск";
-            case 3 -> "Воронеж";
-            case 4 -> "Волгоград";
+            case 0 -> "Вильнюс"; // 1189
+            case 1 -> "Брест"; // 1390
+            case 2 -> "Витебск"; // 911
+            case 3 -> "Воронеж"; // 606
+            case 4 -> "Волгоград"; // 847
             case 5 -> "Ниж.Новгород";
-            case 6 -> "Даугавпилс";
-            case 7 -> "Калининград";
-            case 8 -> "Каунас";
-            case 9 -> "Киев";
-            case 10 -> "Житомир";
-            case 11 -> "Донецк";
-            case 12 -> "Кишинев";
-            case 13 -> "С.Петербург";
-            case 14 -> "Рига";
-            case 15 -> "Москва";
-            case 16 -> "Казань";
-            case 17 -> "Минск";
-            case 18 -> "Мурманск";
-            case 19 -> "Орел";
-            case 20 -> "Одесса";
-            case 21 -> "Таллинн";
-            case 22 -> "Харьков";
-            case 23 -> "Симферополь";
-            case 24 -> "Ярославль";
-            case 25 -> "Уфа";
-            case 26 -> "Самара";
+            case 6 -> "Даугавпилс"; // 1081
+            case 7 -> "Калининград"; // 1482
+            case 8 -> "Каунас"; // 1267
+            case 9 -> "Киев"; // 1103
+            case 10 -> "Житомир"; // 1218
+            case 11 -> "Донецк"; // 1015
+            case 12 -> "Кишинев"; // 1465
+            case 13 -> "С.Петербург"; // 895
+            case 14 -> "Рига"; //1212
+            case 15 -> "Москва"; //411
+            case 16 -> "Казань"; //328
+            case 17 -> "Минск"; //1076
+            case 18 -> "Мурманск"; //1507
+            case 19 -> "Орел"; //631
+            case 20 -> "Одесса"; //1425
+            case 21 -> "Таллинн"; //1184
+            case 22 -> "Харьков"; //871
+            case 23 -> "Симферополь"; //1437
+            case 24 -> "Ярославль"; //287
+            case 25 -> "Уфа"; // 771
+            case 26 -> "Самара"; //523
 
             default -> null;
         };

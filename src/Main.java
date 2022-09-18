@@ -24,5 +24,10 @@ public class Main {
         System.out.println("BSA: ");
         g[4].BSA("Харьков", "Ниж.Новгород");
         g[4].printResult();
+
+        WeightedGraph weightedGraph1 = new WeightedGraph();
+        WeightedGraph weightedGraph2 = new WeightedGraph();
+        weightedGraph1.task1();
+        weightedGraph2.task2();
     }
 }
