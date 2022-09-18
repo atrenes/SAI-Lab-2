@@ -8,16 +8,22 @@ public class Main {
 
         System.out.println("DFS: ");
         g[0].DFS("Харьков", "Ниж.Новгород");
+        System.out.print("\t");
         g[0].printResult("Ниж.Новгород");
 
         System.out.println("BFS: ");
         g[1].BFS("Харьков", "Ниж.Новгород");
+        System.out.print("\t");
         g[1].printResult("Ниж.Новгород");
 
         System.out.println("DLS: ");
         g[2].DLS("Харьков","Ниж.Новгород", 0, 5);
+        System.out.print("\t");
         g[2].printResult("Ниж.Новгород");
 
-        System.out.println();
+        System.out.println("IDDFS: ");
+        g[3].IDDFS("Харьков", "Ниж.Новгород", 0, 1);
+
+
     }
 }

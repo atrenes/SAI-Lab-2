@@ -121,6 +121,18 @@ public class Graph {
         }
     }
 
+    public void IDDFS(String start, String finish, int depth, int limit) {
+        while (!result.contains(finish)) {
+            this.DLS(start, finish, depth, limit++);
+
+            System.out.print("\tStep " + (limit-1) + ": ");
+            printResult(finish);
+
+            clearVisited();
+            if (!result.contains(finish)) result.clear();
+        }
+    }
+
     private int stringToInt(String s) {
         return switch (s) {
             case "Вильнюс" -> 0;
@@ -203,5 +215,9 @@ public class Graph {
                 return;
             }
         }
+    }
+
+    private void clearVisited() {
+        for (int i = 0 ; i < this.V; i++) this.visited[i] = false;
     }
 }
